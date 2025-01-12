@@ -8,8 +8,7 @@ RUN yum update -y
 RUN yum install httpd -y 
 
 # Copy the website files to the web server's document root
-COPY index.html /var/www/html/
-COPY index.css /var/www/html/
+COPY ./webapp /var/www/html/
 
 # Expose port 80
 EXPOSE 80
