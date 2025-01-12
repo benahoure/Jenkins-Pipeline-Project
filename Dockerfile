@@ -1,17 +1,19 @@
-# Base image
-FROM fedora:latest
+FROM ubuntu:22.04
 
-# Update packages
-RUN yum update -y 
+# Description
+LABEL description="Dockerfile to containerize the slick application"
 
-# Install Apache HTTP server
-RUN yum install httpd -y 
+# Update all packages
+RUN apt-get -y update
 
-# Copy the website files to the web server's document root
-COPY ./webapp /var/www/html/
+# Install Apache on Ubuntu
+RUN apt-get install apache2 -y
 
-# Expose port 80
+# Copy web app from local to the container
+COPY ./webapp/ /var/www/html
+
+# Port on which the app should listen
 EXPOSE 80
 
-# Set the default command for the container
-CMD ["httpd", "-D", "FOREGROUND"]
+# Start Apache2 and make it run in the foreground
+ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
